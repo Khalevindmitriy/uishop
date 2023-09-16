@@ -1,6 +1,3 @@
-const fetch = require('node-fetch');
-
-// rest of your code
 
 
 exports.handler = async (event, context) => {
