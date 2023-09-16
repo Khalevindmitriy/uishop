@@ -8,23 +8,29 @@
 <body>
  <div id="message-container"></div>
 
-<script>
-const numberOfItems = data.length; // Assuming 'data' is your array of items
 
-const message = `We found ${numberOfItems} collection item${numberOfItems !== 1 ? 's' : ''}`;
-
-// Assuming you have a DOM element with id 'message-container' where you want to display the message
-const messageContainer = document.getElementById('message-container');
-
-// Set the message as the content of the DOM element
-messageContainer.textContent = message;
-</script>
   
   <script>
   fetch('/.netlify/functions/webflowitems')
     .then((response) => response.json())
     .then((data) => console.log('Items from Webflow:', data))
     .catch((error) => console.error('Error fetching items:', error));
+</script>
+
+  <script>
+// Assume you fetched the data and stored it in 'data' variable
+const data = [
+  {_archived: false, _draft: false, agent-email: 'agnyc2008@gmail.com', listing-type: '27cf4f6dada161a8c67345a7e1fdc0a2', 'bathrooms-2': 1},
+  {_draft: false, _archived: false, agent-email: 'huyilo@gmail.com', listing-type: '6abb0c212ba5b81183a015907680a33b', longitude: -80.1766493},
+  // ... other items
+];
+
+const numberOfItems = data.length;
+const message = `We found ${numberOfItems} collection item${numberOfItems !== 1 ? 's' : ''}`;
+
+const messageContainer = document.getElementById('message-container');
+messageContainer.textContent = message;
+
 </script>
 </body>
 </html>
