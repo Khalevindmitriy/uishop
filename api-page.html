@@ -10,27 +10,15 @@
   <div id="content"></div>
 
 <script>
-const data = [
-  {_archived: false, _draft: false, agent-email: 'agnyc2008@gmail.com', listing-type: '27cf4f6dada161a8c67345a7e1fdc0a2', 'bathrooms-2': 1, ...},
-  {_draft: false, _archived: false, agent-email: 'huyilo@gmail.com', listing-type: '6abb0c212ba5b81183a015907680a33b', longitude: -80.1766493, ...},
-  // Other objects
-  // ...
-];
+const numberOfItems = data.length; // Assuming 'data' is your array of items
 
+const message = `We found ${numberOfItems} collection item${numberOfItems !== 1 ? 's' : ''}`;
 
-const contentContainer = document.getElementById('content');
+// Assuming you have a DOM element with id 'message-container' where you want to display the message
+const messageContainer = document.getElementById('message-container');
 
-// Iterate through the data and create HTML elements to display the content
-data.forEach((item, index) => {
-  const itemDiv = document.createElement('div');
-  itemDiv.textContent = `Item ${index}: ${JSON.stringify(item)}`;
-  contentContainer.appendChild(itemDiv);
-});
-</script>
-  
-  <script>
-  const messageElement = document.getElementById('webflowMessage');
-messageElement.innerText = 'Items from Webflow: Webflow items fetched successfully';
+// Set the message as the content of the DOM element
+messageContainer.textContent = message;
 </script>
   
   <script>
