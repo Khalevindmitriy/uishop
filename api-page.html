@@ -50,6 +50,11 @@
 
     // Listen for dropdown selection changes
     dropdown.addEventListener('change', (event) => {
+      if (!data) {
+        console.error('Data is not available.');
+        return;
+      }
+
       const selectedItemId = event.target.value;
       const selectedItem = data.find(item => item.id === selectedItemId);
 
