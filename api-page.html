@@ -6,29 +6,40 @@
   <title>API Page</title>
 </head>
 <body>
-
-<div id="message-container">We found <span id="item-count">0</span> collection items.</div>
+  <div>
+    <label for="item-dropdown">Select an item: </label>
+    <select id="item-dropdown">
+      <!-- Options will be dynamically populated here -->
+    </select>
+  </div>
+  <div id="item-details">
+    <!-- Item details will be displayed here -->
+  </div>
 
   <script>
-    //this script get's all contents of collection items in console
-  fetch('/.netlify/functions/webflowitems')
-    .then((response) => response.json())
-    .then((data) => console.log('Items from Webflow:', data))
-    .catch((error) => console.error('Error fetching items:', error));
-</script>
+    const dropdown = document.getElementById('item-dropdown');
+    const itemDetails = document.getElementById('item-details');
 
-<script>
-   //this script get's total number of collection items
-  fetch('/.netlify/functions/webflowitems')
-    .then(response => response.json())
-    .then(data => {
-      const itemCount = data.length; // Assuming data is an array
-      const itemCountElement = document.getElementById('item-count');
-      itemCountElement.textContent = itemCount;
-    })
-    .catch(error => console.error('Error fetching items:', error));
-</script>
+    // Fetch your collection items
+    fetch('/.netlify/functions/webflowitems')
+      .then(response => response.json())
+      .then(data => {
+        // Populate the dropdown with collection items
+        data.forEach(item => {
+          const option = document.createElement('option');
+          option.value = item.id; // or any identifier for the item
+          option.textContent = item.name; // or any property to display
+          dropdown.appendChild(option);
+        });
+      })
+      .catch(error => console.error('Error fetching items:', error));
 
+    // Listen for dropdown selection changes
+    dropdown.addEventListener('change', (event) => {
+      const selectedItem = data.find(item => item.id === event.target.value);
+      // Display the selected item details
+      itemDetails.textContent = JSON.stringify(selectedItem, null, 2);
+    });
+  </script>
 </body>
 </html>
-
