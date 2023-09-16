@@ -1,6 +1,8 @@
-async function fetchWebflowItems() {
-  const apiKey = 'a6f5957da2cbed217ecb43cf800e9a43ee88d6b53dbb73f5660753a015840354'; // Replace with your Webflow API key
-  const collectionId = '633cdfe2191b153dc65c63a9'; // Replace with your Webflow collection ID
+const fetch = require('node-fetch');
+
+const handler = async (event, context) => {
+  const apiKey = 'a6f5957da2cbed217ecb43cf800e9a43ee88d6b53dbb73f5660753a015840354';
+  const collectionId = '633cdfe2191b153dc65c63a9';
   const url = `https://api.webflow.com/collections/${collectionId}/items`;
 
   try {
@@ -15,17 +17,16 @@ async function fetchWebflowItems() {
     }
 
     const data = await response.json();
-    console.log('Items from Webflow:', data.items);
+    return {
+      statusCode: 200,
+      body: JSON.stringify(data.items),
+    };
   } catch (error) {
-    console.error('Error fetching items:', error);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: error.message }),
+    };
   }
-}
-
-// Export the function to be used as a Netlify function
-exports.handler = async (event, context) => {
-  await fetchWebflowItems();
-  return {
-    statusCode: 200,
-    body: JSON.stringify({ message: 'Webflow items fetched successfully' }),
-  };
 };
+
+module.exports = { handler };
