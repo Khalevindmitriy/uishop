@@ -6,11 +6,7 @@
   <title>API Page</title>
 </head>
 <body>
-  <div id="item-list"></div>
-
-  <!-- Load the function on your webpage (add this to api-page.html) -->
-  <script src="/.netlify/functions/webflowitems"></script>
-
+ 
   <script>
     fetch('/.netlify/functions/webflowitems')
       .then((response) => {
