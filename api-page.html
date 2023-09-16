@@ -13,9 +13,7 @@
       <!-- Options will be dynamically populated here -->
     </select>
   </div>
-  <div id="item-details">
-    No item selected.
-  </div>
+  <div id="item-details"></div>
 
   <script>
     let data; // Variable to store the fetched data
@@ -44,7 +42,7 @@
         const details = JSON.stringify(selectedItem, null, 2);
         itemDetails.innerHTML = `<pre>${details}</pre>`;
       } else {
-        itemDetails.textContent = 'No item selected.';
+        itemDetails.textContent = ''; // Clear the content
       }
     }
 
