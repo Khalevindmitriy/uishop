@@ -1,4 +1,4 @@
-const fetch = require('node-fetch');
+
 
 const handler = async (event, context) => {
   const apiKey = 'a6f5957da2cbed217ecb43cf800e9a43ee88d6b53dbb73f5660753a015840354';
