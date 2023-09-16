@@ -48,12 +48,13 @@
 
 // Listen for dropdown selection changes
 dropdown.addEventListener('change', (event) => {
-  const selectedItemId = event.target.value;
+  const selectedOption = dropdown.options[dropdown.selectedIndex];
+  const selectedItemId = selectedOption.value;
   console.log('Selected item ID:', selectedItemId); // Log the selected item ID
+
   // Display the selected item details
   displayItemDetails(selectedItemId);
 });
-
     
   </script>
 </body>
