@@ -6,27 +6,22 @@
   <title>API Page</title>
 </head>
 <body>
-<div id="message-container">We found <span id="item-count"></span> collection items.</div>
-
-
-  
-  <script>
-  fetch('/.netlify/functions/webflowitems')
-    .then((response) => response.json())
-    .then((data) => console.log('Items from Webflow:', data))
-    .catch((error) => console.error('Error fetching items:', error));
-</script>
+  <div id="message-container">We found <span id="item-count">0</span> collection items.</div>
 
   <script>
-    // Fetch your data from the API
-    fetch('your_api_endpoint')
-      .then(response => response.json())
+    fetch('/.netlify/functions/webflowitems')
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
       .then(data => {
         const itemCount = data.length; // Assuming data is an array
         const itemCountElement = document.getElementById('item-count');
         itemCountElement.textContent = itemCount;
       })
-      .catch(error => console.error('Error fetching data:', error));
+      .catch(error => console.error('Error fetching items:', error));
   </script>
 </body>
 </html>
