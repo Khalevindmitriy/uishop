@@ -13,7 +13,7 @@
   <script>
     async function fetchWebflowItems() {
       const apiKey = 'a6f5957da2cbed217ecb43cf800e9a43ee88d6b53dbb73f5660753a015840354'; // Replace with your Webflow API key
-      const collectionId = 'YOUR_COLLECTION_ID'; // Replace with your Webflow collection ID
+      const collectionId = '633cdfe2191b153dc65c63a9'; // Replace with your Webflow collection ID
       const url = `https://api.webflow.com/collections/${collectionId}/items`;
 
       try {
