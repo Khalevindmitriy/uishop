@@ -6,7 +6,7 @@
   <title>API Page</title>
 </head>
 <body>
- <div id="message-container"></div>
+<div id="message-container">We found <span id="item-count"></span> collection items.</div>
 
 
   
@@ -18,19 +18,14 @@
 </script>
 
   <script>
-// Assume you fetched the data and stored it in 'data' variable
-const data = [
-  {_archived: false, _draft: false, agent-email: 'agnyc2008@gmail.com', listing-type: '27cf4f6dada161a8c67345a7e1fdc0a2', 'bathrooms-2': 1},
-  {_draft: false, _archived: false, agent-email: 'huyilo@gmail.com', listing-type: '6abb0c212ba5b81183a015907680a33b', longitude: -80.1766493},
-  // ... other items
-];
+    const data = [
+      // Your data array here
+      // ...
+    ];
 
-const numberOfItems = data.length;
-const message = `We found ${numberOfItems} collection item${numberOfItems !== 1 ? 's' : ''}`;
-
-const messageContainer = document.getElementById('message-container');
-messageContainer.textContent = message;
-
-</script>
+    const itemCount = data.length;
+    const itemCountElement = document.getElementById('item-count');
+    itemCountElement.textContent = itemCount;
+  </script>
 </body>
 </html>
