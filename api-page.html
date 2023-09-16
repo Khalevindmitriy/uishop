@@ -44,11 +44,16 @@
       itemDetails.textContent = JSON.stringify(selectedItem, null, 2);
     }
 
-    // Listen for dropdown selection changes
-    dropdown.addEventListener('change', (event) => {
-      const selectedOption = dropdown.options[dropdown.selectedIndex];
-      const selectedItemId = selectedOption.value;
-      console.log('Selected item ID:', selectedItemId); // Log the selected item ID
+   dropdown.addEventListener('change', (event) => {
+  console.log('Dropdown value:', dropdown.value); // Log the dropdown value
+  console.log('Data:', data); // Log the data array
+
+  const selectedItem = data.find(item => item.id === event.target.value);
+  console.log('Selected item:', selectedItem); // Log the selected item
+
+  // Display the selected item details
+  displayItemDetails(event.target.value);
+});
 
       // Display the selected item details
       displayItemDetails(selectedItemId);
