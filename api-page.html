@@ -19,32 +19,15 @@
   <script>
     const dropdown = document.getElementById('item-dropdown');
     const itemDetails = document.getElementById('item-details');
-    let data; // Variable to store collection items
-
-    // Function to display item details
-    function displayItemDetails(selectedItem) {
-      itemDetails.innerHTML = '';  // Clear previous details
-
-      // Check if selectedItem is defined
-      if (selectedItem) {
-        // Display each property in the item
-        for (const [key, value] of Object.entries(selectedItem)) {
-          const property = document.createElement('div');
-          property.textContent = `${key}: ${value}`;
-          itemDetails.appendChild(property);
-        }
-      } else {
-        itemDetails.textContent = 'No item selected.';
-      }
-    }
+    let data;  // Variable to store the fetched data
 
     // Fetch your collection items
     fetch('/.netlify/functions/webflowitems')
       .then(response => response.json())
-      .then(items => {
-        data = items; // Assign items to the variable
-        // Populate the dropdown with collection item names
-        items.forEach(item => {
+      .then(itemsData => {
+        data = itemsData;  // Store the data in the variable
+        // Populate the dropdown with collection items
+        data.forEach(item => {
           const option = document.createElement('option');
           option.value = item.id; // or any identifier for the item
           option.textContent = item.name; // or any property to display
@@ -55,17 +38,19 @@
 
     // Listen for dropdown selection changes
     dropdown.addEventListener('change', (event) => {
-      if (!data) {
-        console.error('Data is not available.');
-        return;
-      }
-
-      const selectedItemId = event.target.value;
-      const selectedItem = data.find(item => item.id === selectedItemId);
-
+      const selectedItem = data.find(item => item.id === event.target.value);
       // Display the selected item details
       displayItemDetails(selectedItem);
     });
+
+    function displayItemDetails(item) {
+      if (item) {
+        // Update the item-details element to display the item details
+        itemDetails.innerHTML = `<pre>${JSON.stringify(item, null, 2)}</pre>`;
+      } else {
+        itemDetails.innerHTML = 'No item selected';
+      }
+    }
   </script>
 </body>
 </html>
