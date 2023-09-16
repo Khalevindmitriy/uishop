@@ -1,3 +1,6 @@
+I apologize for the oversight. It seems I missed declaring the `data` variable in the scope of the event listener. Here's the corrected code:
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,13 +21,17 @@
   </div>
 
   <script>
+    let data; // Declare the data variable
+
     const dropdown = document.getElementById('item-dropdown');
     const itemDetails = document.getElementById('item-details');
 
     // Fetch your collection items
     fetch('/.netlify/functions/webflowitems')
       .then(response => response.json())
-      .then(data => {
+      .then(collectionData => {
+        data = collectionData; // Store the data in the variable
+
         // Populate the dropdown with collection items
         data.forEach(item => {
           const option = document.createElement('option');
@@ -56,3 +63,6 @@
   </script>
 </body>
 </html>
+```
+
+I've added `let data;` at the beginning of the script, ensuring that the `data` variable is declared and can be accessed within the event listener. This should resolve the "data is not defined" error. Please try this updated code.
