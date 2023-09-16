@@ -6,20 +6,11 @@
   <title>API Page</title>
 </head>
 <body>
- 
   <script>
-    fetch('/.netlify/functions/webflowitems')
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
-      .then((data) => {
-        const itemListDiv = document.getElementById('item-list');
-        itemListDiv.innerHTML = JSON.stringify(data.items, null, 2);
-      })
-      .catch((error) => console.error('Error fetching items:', error));
-  </script>
+  fetch('/.netlify/functions/webflowitems')
+    .then((response) => response.json())
+    .then((data) => console.log('Items from Webflow:', data))
+    .catch((error) => console.error('Error fetching items:', error));
+</script>
 </body>
 </html>
