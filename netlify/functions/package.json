@@ -1,5 +1,5 @@
 {
-  "name": "your-project-name",
+  "name": "uishop-test",  // Replace with your actual project name
   "version": "1.0.0",
   "main": "index.js",
   "dependencies": {
