@@ -25,11 +25,16 @@
     function displayItemDetails(selectedItem) {
       itemDetails.innerHTML = '';  // Clear previous details
 
-      // Display each property in the item
-      for (const [key, value] of Object.entries(selectedItem)) {
-        const property = document.createElement('div');
-        property.textContent = `${key}: ${value}`;
-        itemDetails.appendChild(property);
+      // Check if selectedItem is defined
+      if (selectedItem) {
+        // Display each property in the item
+        for (const [key, value] of Object.entries(selectedItem)) {
+          const property = document.createElement('div');
+          property.textContent = `${key}: ${value}`;
+          itemDetails.appendChild(property);
+        }
+      } else {
+        itemDetails.textContent = 'No item selected.';
       }
     }
 
