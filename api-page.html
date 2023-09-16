@@ -40,7 +40,8 @@
     function displayItemDetails(selectedItemId) {
       const selectedItem = data.find(item => item.id === selectedItemId);
       if (selectedItem) {
-        itemDetails.textContent = JSON.stringify(selectedItem, null, 2);
+        const details = JSON.stringify(selectedItem, null, 2);
+        itemDetails.innerHTML = `<pre>${details}</pre>`;
       } else {
         itemDetails.textContent = 'No item selected.';
       }
