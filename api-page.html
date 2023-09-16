@@ -6,7 +6,13 @@
   <title>API Page</title>
 </head>
 <body>
- <div id="webflowMessage" style:"border 1px solid #000000; height:40px; width:100px;"></div>
+ <div id="webflowMessage"></div>
+  
+  <script>
+  const messageElement = document.getElementById('webflowMessage');
+messageElement.innerText = 'Items from Webflow: Webflow items fetched successfully';
+</script>
+  
   <script>
   fetch('/.netlify/functions/webflowitems')
     .then((response) => response.json())
