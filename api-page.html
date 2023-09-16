@@ -18,7 +18,7 @@
   </div>
 
   <script>
-    let data; // Declare the data variable
+    let data;
 
     const dropdown = document.getElementById('item-dropdown');
     const itemDetails = document.getElementById('item-details');
@@ -27,13 +27,13 @@
     fetch('/.netlify/functions/webflowitems')
       .then(response => response.json())
       .then(collectionData => {
-        data = collectionData; // Store the data in the variable
+        data = collectionData;
 
         // Populate the dropdown with collection items
         data.forEach(item => {
           const option = document.createElement('option');
-          option.value = item.id; // or any identifier for the item
-          option.textContent = item.name; // or any property to display
+          option.value = item.id;
+          option.textContent = item.name;
           dropdown.appendChild(option);
         });
       })
@@ -44,7 +44,7 @@
       const selectedItemId = event.target.value;
 
       if (selectedItemId === '') {
-        itemDetails.textContent = 'Choose an item'; // Prompt to choose an item
+        itemDetails.textContent = 'Choose an item';
         return;
       }
 
@@ -52,8 +52,7 @@
 
       if (selectedItem) {
         // Display the selected item details
-        const itemDetailsText = JSON.stringify(selectedItem, null, 2);
-        itemDetails.textContent = itemDetailsText;
+        itemDetails.innerHTML = `<pre>${JSON.stringify(selectedItem, null, 2)}</pre>`;
       } else {
         itemDetails.textContent = 'Item not found';
       }
