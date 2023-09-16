@@ -8,7 +8,7 @@ exports.handler = async (event, context) => {
   try {
     const response = await fetch(url, {
       headers: {
-        Authorization: `Bearer ${a6f5957da2cbed217ecb43cf800e9a43ee88d6b53dbb73f5660753a015840354}`,
+        Authorization: `Bearer ${apiKey}`,
       },
     });
 
