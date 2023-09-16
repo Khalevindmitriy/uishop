@@ -10,6 +10,7 @@
 <div id="message-container">We found <span id="item-count">0</span> collection items.</div>
 
   <script>
+    //this script get's all contents of collection items in console
   fetch('/.netlify/functions/webflowitems')
     .then((response) => response.json())
     .then((data) => console.log('Items from Webflow:', data))
@@ -17,6 +18,7 @@
 </script>
 
 <script>
+   //this script get's total number of collection items
   fetch('/.netlify/functions/webflowitems')
     .then(response => response.json())
     .then(data => {
