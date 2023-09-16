@@ -17,40 +17,36 @@
   </div>
 
   <script>
+    let data; // Variable to store the fetched data
     const dropdown = document.getElementById('item-dropdown');
     const itemDetails = document.getElementById('item-details');
-    let data;
 
     // Fetch your collection items
     fetch('/.netlify/functions/webflowitems')
       .then(response => response.json())
       .then(itemsData => {
-        data = itemsData;
+        data = itemsData;  // Store the data in the variable
         // Populate the dropdown with collection items
         data.forEach(item => {
           const option = document.createElement('option');
-          option.value = item.id;
-          option.textContent = item.name;
+          option.value = item.id; // or any identifier for the item
+          option.textContent = item.name; // or any property to display
           dropdown.appendChild(option);
         });
+        console.log(data); // Log the data for verification
       })
       .catch(error => console.error('Error fetching items:', error));
+
+    function displayItemDetails(item) {
+      itemDetails.textContent = JSON.stringify(item, null, 2);
+    }
 
     // Listen for dropdown selection changes
     dropdown.addEventListener('change', (event) => {
       const selectedItem = data.find(item => item.id === event.target.value);
       // Display the selected item details
-      console.log('Selected Item:', selectedItem); // Log the selected item
       displayItemDetails(selectedItem);
     });
-
-    function displayItemDetails(item) {
-      if (item) {
-        itemDetails.innerHTML = `<pre>${JSON.stringify(item, null, 2)}</pre>`;
-      } else {
-        itemDetails.innerHTML = 'No item selected';
-      }
-    }
   </script>
 </body>
 </html>
