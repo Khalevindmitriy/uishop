@@ -10,13 +10,15 @@
     <label for="item-dropdown">Select an item: </label>
     <select id="item-dropdown">
       <option value="" disabled selected>Choose your listing</option>
-      <!-- Options will be dynamically populated here -->
     </select>
   </div>
-  <div id="item-details"></div>
+  <div id="item-details">
+    <!-- Item details will be displayed here -->
+  </div>
 
   <script>
-    let data; // Variable to store the fetched data
+    let data; // Declare data outside the fetch
+
     const dropdown = document.getElementById('item-dropdown');
     const itemDetails = document.getElementById('item-details');
 
@@ -24,7 +26,8 @@
     fetch('/.netlify/functions/webflowitems')
       .then(response => response.json())
       .then(itemsData => {
-        data = itemsData;  // Store the data in the variable
+        data = itemsData;  // Assign the data to the outer variable
+
         // Populate the dropdown with collection items
         data.forEach(item => {
           const option = document.createElement('option');
@@ -32,30 +35,24 @@
           option.textContent = item.name; // or any property to display
           dropdown.appendChild(option);
         });
-        console.log(data); // Log the data for verification
       })
       .catch(error => console.error('Error fetching items:', error));
 
-    function displayItemDetails(selectedItemId) {
-      const selectedItem = data.find(item => item.id === selectedItemId);
-      if (selectedItem) {
-        const details = JSON.stringify(selectedItem, null, 2);
-        itemDetails.innerHTML = `<pre>${details}</pre>`;
-      } else {
-        itemDetails.textContent = ''; // Clear the content
-      }
+    // Function to display item details
+    function displayItemDetails(itemId) {
+      const selectedItem = data.find(item => item.id === itemId);
+      itemDetails.textContent = JSON.stringify(selectedItem, null, 2);
     }
 
-// Listen for dropdown selection changes
-dropdown.addEventListener('change', (event) => {
-  const selectedOption = dropdown.options[dropdown.selectedIndex];
-  const selectedItemId = selectedOption.value;
-  console.log('Selected item ID:', selectedItemId); // Log the selected item ID
+    // Listen for dropdown selection changes
+    dropdown.addEventListener('change', (event) => {
+      const selectedOption = dropdown.options[dropdown.selectedIndex];
+      const selectedItemId = selectedOption.value;
+      console.log('Selected item ID:', selectedItemId); // Log the selected item ID
 
-  // Display the selected item details
-  displayItemDetails(selectedItemId);
-});
-    
+      // Display the selected item details
+      displayItemDetails(selectedItemId);
+    });
   </script>
 </body>
 </html>
