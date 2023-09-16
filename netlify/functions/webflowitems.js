@@ -15,13 +15,9 @@ exports.handler = async (event, context) => {
     }
 
     const data = await response.json();
-
-    // Render the data on the webpage
-    renderWebflowItems(data.items);
-
     return {
       statusCode: 200,
-      body: JSON.stringify({ message: 'Items fetched successfully' }),
+      body: JSON.stringify({ items: data.items }), // Wrap data in an object
     };
   } catch (error) {
     return {
@@ -30,8 +26,3 @@ exports.handler = async (event, context) => {
     };
   }
 };
-
-function renderWebflowItems(items) {
-  const itemList = items.map(item => JSON.stringify(item)).join('<br>');
-  document.getElementById('item-list').innerHTML = itemList;
-}
