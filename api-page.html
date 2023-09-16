@@ -44,7 +44,7 @@
       itemDetails.textContent = JSON.stringify(selectedItem, null, 2);
     }
 
-   dropdown.addEventListener('change', (event) => {
+ dropdown.addEventListener('change', (event) => {
   console.log('Dropdown value:', dropdown.value); // Log the dropdown value
   console.log('Data:', data); // Log the data array
 
@@ -54,10 +54,6 @@
   // Display the selected item details
   displayItemDetails(event.target.value);
 });
-
-      // Display the selected item details
-      displayItemDetails(selectedItemId);
-    });
   </script>
 </body>
 </html>
