@@ -18,14 +18,15 @@
 </script>
 
   <script>
-    const data = [
-      // Your data array here
-      // ...
-    ];
-
-    const itemCount = data.length;
-    const itemCountElement = document.getElementById('item-count');
-    itemCountElement.textContent = itemCount;
+    // Fetch your data from the API
+    fetch('your_api_endpoint')
+      .then(response => response.json())
+      .then(data => {
+        const itemCount = data.length; // Assuming data is an array
+        const itemCountElement = document.getElementById('item-count');
+        itemCountElement.textContent = itemCount;
+      })
+      .catch(error => console.error('Error fetching data:', error));
   </script>
 </body>
 </html>
