@@ -21,6 +21,18 @@
     const itemDetails = document.getElementById('item-details');
     let data; // Variable to store collection items
 
+    // Function to display item details
+    function displayItemDetails(selectedItem) {
+      itemDetails.innerHTML = '';  // Clear previous details
+
+      // Display each property in the item
+      for (const [key, value] of Object.entries(selectedItem)) {
+        const property = document.createElement('div');
+        property.textContent = `${key}: ${value}`;
+        itemDetails.appendChild(property);
+      }
+    }
+
     // Fetch your collection items
     fetch('/.netlify/functions/webflowitems')
       .then(response => response.json())
@@ -38,9 +50,11 @@
 
     // Listen for dropdown selection changes
     dropdown.addEventListener('change', (event) => {
-      const selectedItem = data.find(item => item.id === event.target.value);
+      const selectedItemId = event.target.value;
+      const selectedItem = data.find(item => item.id === selectedItemId);
+
       // Display the selected item details
-      itemDetails.textContent = JSON.stringify(selectedItem, null, 2);
+      displayItemDetails(selectedItem);
     });
   </script>
 </body>
