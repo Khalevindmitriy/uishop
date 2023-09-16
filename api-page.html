@@ -29,11 +29,11 @@
       .then(collectionData => {
         data = collectionData;
 
-        // Populate the dropdown with collection items
+        // Populate the dropdown with collection item names
         data.forEach(item => {
           const option = document.createElement('option');
           option.value = item.id;
-          option.textContent = item.name;
+          option.textContent = item.name;  // Assuming 'name' is a property in your data
           dropdown.appendChild(option);
         });
       })
