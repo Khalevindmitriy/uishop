@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
- 
   <title>API Page</title>
 </head>
 <body>
@@ -13,13 +12,18 @@
   <script src="/.netlify/functions/webflowitems"></script>
 
   <script>
-  fetch('/.netlify/functions/webflowitems')
-    .then((response) => response.json())
-    .then((data) => {
-      const itemListDiv = document.getElementById('item-list');
-      itemListDiv.innerHTML = JSON.stringify(data.items, null, 2);
-    })
-    .catch((error) => console.error('Error fetching items:', error));
+    fetch('/.netlify/functions/webflowitems')
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        const itemListDiv = document.getElementById('item-list');
+        itemListDiv.innerHTML = JSON.stringify(data.items, null, 2);
+      })
+      .catch((error) => console.error('Error fetching items:', error));
   </script>
 </body>
 </html>
