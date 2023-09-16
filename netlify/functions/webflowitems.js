@@ -12,7 +12,7 @@
         const response = await fetch('/.netlify/functions/webflowitems');
 
         if (!response.ok) {
-          throw new Error('Error fetching items from Webflow API');
+          throw new Error(`Error fetching items from Webflow API: ${response.statusText}`);
         }
 
         const data = await response.json();
