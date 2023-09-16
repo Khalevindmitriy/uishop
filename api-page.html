@@ -19,13 +19,15 @@
   <script>
     const dropdown = document.getElementById('item-dropdown');
     const itemDetails = document.getElementById('item-details');
+    let data; // Variable to store collection items
 
     // Fetch your collection items
     fetch('/.netlify/functions/webflowitems')
       .then(response => response.json())
-      .then(data => {
-        // Populate the dropdown with collection items
-        data.forEach(item => {
+      .then(items => {
+        data = items; // Assign items to the variable
+        // Populate the dropdown with collection item names
+        items.forEach(item => {
           const option = document.createElement('option');
           option.value = item.id; // or any identifier for the item
           option.textContent = item.name; // or any property to display
