@@ -44,15 +44,22 @@
       itemDetails.textContent = JSON.stringify(selectedItem, null, 2);
     }
 
- dropdown.addEventListener('change', (event) => {
-  console.log('Dropdown value:', dropdown.value); // Log the dropdown value
-  console.log('Data:', data); // Log the data array
+dropdown.addEventListener('change', (event) => {
+  const selectedItemId = event.target.value;
 
-  const selectedItem = data.find(item => item.id === event.target.value);
-  console.log('Selected item:', selectedItem); // Log the selected item
+  if (selectedItemId === '') {
+    itemDetails.textContent = ''; // Clear the item details if no item selected
+    return;
+  }
 
-  // Display the selected item details
-  displayItemDetails(event.target.value);
+  const selectedItem = data.find(item => item.id === selectedItemId);
+
+  if (selectedItem) {
+    const itemDetailsText = JSON.stringify(selectedItem, null, 2);
+    itemDetails.textContent = itemDetailsText;
+  } else {
+    itemDetails.textContent = 'Item not found';
+  }
 });
   </script>
 </body>
