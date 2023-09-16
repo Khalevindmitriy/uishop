@@ -7,6 +7,23 @@
 </head>
 <body>
  <div id="webflowMessage"></div>
+  <div id="content"></div>
+
+<script>
+  const data = [
+  // Your data array here
+  // ...
+];
+
+const contentContainer = document.getElementById('content');
+
+// Iterate through the data and create HTML elements to display the content
+data.forEach((item, index) => {
+  const itemDiv = document.createElement('div');
+  itemDiv.textContent = `Item ${index}: ${JSON.stringify(item)}`;
+  contentContainer.appendChild(itemDiv);
+});
+</script>
   
   <script>
   const messageElement = document.getElementById('webflowMessage');
