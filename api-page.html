@@ -9,7 +9,8 @@
   <div>
     <label for="item-dropdown">Select an item: </label>
     <select id="item-dropdown">
-      <option value="" disabled selected>Choose your listing</option>
+      <option value="">Choose your listing</option>
+      <!-- Options will be dynamically populated here -->
     </select>
   </div>
   <div id="item-details">
@@ -17,17 +18,13 @@
   </div>
 
   <script>
-    let data; // Declare data outside the fetch
-
     const dropdown = document.getElementById('item-dropdown');
     const itemDetails = document.getElementById('item-details');
 
     // Fetch your collection items
     fetch('/.netlify/functions/webflowitems')
       .then(response => response.json())
-      .then(itemsData => {
-        data = itemsData;  // Assign the data to the outer variable
-
+      .then(data => {
         // Populate the dropdown with collection items
         data.forEach(item => {
           const option = document.createElement('option');
@@ -38,29 +35,24 @@
       })
       .catch(error => console.error('Error fetching items:', error));
 
-    // Function to display item details
-    function displayItemDetails(itemId) {
-      const selectedItem = data.find(item => item.id === itemId);
-      itemDetails.textContent = JSON.stringify(selectedItem, null, 2);
-    }
+    // Listen for dropdown selection changes
+    dropdown.addEventListener('change', (event) => {
+      const selectedItemId = event.target.value;
 
-dropdown.addEventListener('change', (event) => {
-  const selectedItemId = event.target.value;
+      if (selectedItemId === '') {
+        itemDetails.textContent = ''; // Clear the item details if no item selected
+        return;
+      }
 
-  if (selectedItemId === '') {
-    itemDetails.textContent = ''; // Clear the item details if no item selected
-    return;
-  }
+      const selectedItem = data.find(item => item.id === selectedItemId);
 
-  const selectedItem = data.find(item => item.id === selectedItemId);
-
-  if (selectedItem) {
-    const itemDetailsText = JSON.stringify(selectedItem, null, 2);
-    itemDetails.textContent = itemDetailsText;
-  } else {
-    itemDetails.textContent = 'Item not found';
-  }
-});
+      if (selectedItem) {
+        const itemDetailsText = JSON.stringify(selectedItem, null, 2);
+        itemDetails.textContent = itemDetailsText;
+      } else {
+        itemDetails.textContent = 'Item not found';
+      }
+    });
   </script>
 </body>
 </html>
