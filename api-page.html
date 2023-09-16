@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/wfapi"></script>
+  <title>API Page</title>
+</head>
+<body>
+  <script>
+    const apiEndpoint = 'https://api.webflow.com/collections/:collectionId/items';
+    const apiKey = '740dca89f913ea8e580c5dbc3512860bf6cca26f4ef23ab6edffa1dea1c0fff3';
+    const collectionId = '633cdfe2191b153dc65c63a9';
+
+    const url = apiEndpoint.replace(':collectionId', collectionId);
+
+    fetch(url, {
+      headers: {
+        'Authorization': `Bearer ${apiKey}`,
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Items from the collection:', data.items);
+      })
+      .catch(error => console.error('Error fetching items:', error));
+  </script>
+</body>
+</html>
