@@ -1,3 +1,6 @@
+Certainly! Here's the entire page code with the ability to edit the agent email and a confirmation message upon successful update:
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,24 +15,20 @@
       <option value="">Choose your listing</option>
     </select>
   </div>
-
-  <div>
-    <h2>Item Details:</h2>
-    <pre id="item-details"></pre>
-  </div>
-
   <div>
     <label for="agent-email">Agent Email: </label>
-    <input type="email" id="agent-email" disabled>
+    <input type="text" id="agent-email">
+    <button id="edit-button">Edit Agent Email</button>
   </div>
-
-  <button id="edit-button" disabled>Edit Agent Email</button>
+  <div id="item-details">
+    <!-- Item details will be displayed here -->
+  </div>
 
   <script>
     const dropdown = document.getElementById('item-dropdown');
-    const itemDetails = document.getElementById('item-details');
     const agentEmailInput = document.getElementById('agent-email');
     const editButton = document.getElementById('edit-button');
+    const itemDetails = document.getElementById('item-details');
 
     let data; // Variable to hold the data
 
@@ -58,34 +57,43 @@
         const selectedItem = data.find(item => item._id === selectedItemId);
 
         if (selectedItem) {
-          // Display item details
-          itemDetails.textContent = JSON.stringify(selectedItem, null, 2);
+          const itemDetailsHTML = `
+            <strong>Item ID:</strong> ${selectedItem._id}<br>
+            <strong>Name:</strong> ${selectedItem.name}<br>
+            <strong>Other properties:</strong> ${JSON.stringify(selectedItem, null, 2)}
+          `;
+
+          itemDetails.innerHTML = itemDetailsHTML;
+
+          // Populate the agent email input
           agentEmailInput.value = selectedItem['agent-email'];
-          agentEmailInput.disabled = false;
-          editButton.disabled = false;
+        } else {
+          itemDetails.innerHTML = 'Item not found.';
         }
       } else {
-        itemDetails.textContent = ''; // Clear item details if no item selected
-        agentEmailInput.value = '';
-        agentEmailInput.disabled = true;
-        editButton.disabled = true;
+        itemDetails.innerHTML = '';  // Clear item details if no item selected
       }
     });
 
-    // Listen for edit button click
+    // Listen for the edit button click
     editButton.addEventListener('click', () => {
       const newAgentEmail = agentEmailInput.value;
-
-      // Update the selected item's agent email
       const selectedItemId = dropdown.value;
       const selectedItem = data.find(item => item._id === selectedItemId);
 
       if (selectedItem) {
+        // Update the agent email in your local data
         selectedItem['agent-email'] = newAgentEmail;
-        // You can send this updated data back to your server or handle it accordingly
-        console.log('Updated data:', data);
+
+        // Simulate a successful update
+        // You would replace this with an actual API request to update the item in Webflow
+        // Refer to Webflow API documentation for the correct endpoint and authentication
+        alert('Agent email updated successfully!');
       }
     });
   </script>
 </body>
 </html>
+```
+
+This code allows you to select an item from the dropdown, edit the agent email, and receive a confirmation message when the agent email is updated. Please adapt the code to your actual Webflow API implementation for updating items.
