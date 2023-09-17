@@ -1,71 +1,65 @@
-function updateAgentEmail() {
-  const newAgentEmail = agentEmailInput.value;
-  const selectedItemId = dropdown.value;
+// functions/updateAgentEmail.js
 
-  // Disable the button during the update process
-  updateButton.disabled = true;
+exports.handler = async function (event, context) {
+  try {
+    // Parse the data from the request body
+    const data = JSON.parse(event.body);
 
-  // Show progress indicator
-  progressIndicator.style.display = 'block';
+    // TODO: Use the Webflow API to update the agent's email with the provided data
 
-  // Retrieve the collection ID and item ID associated with the selected item
-  const selectedItem = data.find(item => item._id === selectedItemId);
-  const collectionId = selectedItem && selectedItem.collectionId;
-  const itemId = selectedItem && selectedItem.itemId;
+    // Replace with your actual Webflow API endpoint for updating an item
+    const endpoint = `https://api.webflow.com/collections/633cdfe2191b153dc65c63a9/items/63cec1473c544e2f09c4a930`;
 
-  if (!collectionId || !itemId) {
-    console.error('Could not find collection ID or item ID for the selected item.');
-    return;
+    // Replace with your actual Webflow API key
+    const apiKey = 'a6f5957da2cbed217ecb43cf800e9a43ee88d6b53dbb73f5660753a015840354
+';
+
+    const response = await fetch(endpoint, {
+      method: 'PATCH',
+      headers: {
+        'Authorization': `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        fields: {
+          'agent-email': data.newAgentEmail // Assuming 'agent-email' is the field to update
+        }
+      })
+    });
+
+    const responseData = await response.json();
+
+    // Check if the response was successful
+    if (response.ok) {
+      return {
+        statusCode: 200,
+        body: JSON.stringify({ message: 'Agent email updated successfully', data: responseData }),
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
+          'Content-Type': 'application/json'
+        }
+      };
+    } else {
+      return {
+        statusCode: response.status,
+        body: JSON.stringify({ message: 'Error updating agent email', error: responseData }),
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
+          'Content-Type': 'application/json'
+        }
+      };
+    }
+  } catch (error) {
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ message: 'Error updating agent email', error: error.message }),
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
+        'Content-Type': 'application/json'
+      }
+    };
   }
-
-  // Construct the request URL
-  const apiUrl = `https://api.webflow.com/collections/${collectionId}/items/${itemId}`;
-
-  // Construct the request body
-  const requestBody = {
-    fields: {
-      'agent-email': newAgentEmail
-    }
-  };
-
-  fetch(apiUrl, {
-    method: 'PUT',
-    headers: {
-      'Authorization': 'Bearer YOUR_API_KEY',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(requestBody)
-  })
-  .then(response => {
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-    return response.json();
-  })
-  .then(data => {
-    console.log('Agent email updated:', newAgentEmail);
-
-    // Enable the button after the update is complete
-    updateButton.disabled = false;
-
-    // Hide progress indicator
-    progressIndicator.style.display = 'none';
-
-    // Show confirmation message
-    confirmationMessage.innerHTML = 'Agent email updated successfully!';
-    confirmationMessage.style.display = 'block';
-  })
-  .catch(error => {
-    console.error('Error updating agent email:', error);
-
-    // Enable the button after the update is complete
-    updateButton.disabled = false;
-
-    // Hide progress indicator
-    progressIndicator.style.display = 'none';
-
-    // Show error message
-    confirmationMessage.innerHTML = 'Error updating agent email. Please try again.';
-    confirmationMessage.style.display = 'block';
-  });
-}
+};
