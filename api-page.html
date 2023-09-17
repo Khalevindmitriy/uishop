@@ -1,3 +1,6 @@
+To display the agent email field all the time, you can add an element for it in the HTML and update its content when an item is selected from the dropdown. Here's the updated code:
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,53 +19,17 @@
   <div id="item-details">
     <!-- Item details will be displayed here -->
   </div>
+  <div id="agent-email">
+    <strong>Agent Email:</strong> <span id="agent-email-value"></span>
+  </div>
   <button id="update-email-button">Update Email</button>
 
   <script>
     const dropdown = document.getElementById('item-dropdown');
     const itemDetails = document.getElementById('item-details');
+    const agentEmailValue = document.getElementById('agent-email-value');
 
     let data; // Variable to hold the data
-
-    // Fetch your collection items
-    fetch('/.netlify/functions/webflowitems')
-      .then(response => response.json())
-      .then(items => {
-        // Save the data
-        data = items;
-
-        // Populate the dropdown with collection items
-        data.forEach(item => {
-          const option = document.createElement('option');
-          option.value = item._id; // or any identifier for the item
-          option.textContent = item.name; // or any property to display
-          dropdown.appendChild(option);
-        });
-      })
-      .catch(error => console.error('Error fetching items:', error));
-
-    // Listen for dropdown selection changes
-    dropdown.addEventListener('change', (event) => {
-      const selectedItemId = event.target.value;
-
-      if (selectedItemId !== '') {
-        const selectedItem = data.find(item => item._id === selectedItemId);
-
-        if (selectedItem) {
-          const itemDetailsHTML = `
-            <strong>Item ID:</strong> ${selectedItem._id}<br>
-            <strong>Name:</strong> ${selectedItem.name}<br>
-            <strong>Other properties:</strong> ${JSON.stringify(selectedItem, null, 2)}
-          `;
-
-          itemDetails.innerHTML = itemDetailsHTML;
-        } else {
-          itemDetails.innerHTML = 'Item not found.';
-        }
-      } else {
-        itemDetails.innerHTML = '';  // Clear item details if no item selected
-      }
-    });
 
     // Function to update agent email
     async function updateAgentEmail(selectedItemId, newAgentEmail) {
@@ -85,21 +52,52 @@
       }
     }
 
+    // Fetch your collection items
+    fetch('/.netlify/functions/webflowitems')
+      .then(response => response.json())
+      .then(items => {
+        // Save the data
+        data = items;
+
+        // Populate the dropdown with collection items
+        data.forEach(item => {
+          const option = document.createElement('option');
+          option.value = item._id; // or any identifier for the item
+          option.textContent = item.name; // or any property to display
+          dropdown.appendChild(option);
+        });
+      })
+      .catch(error => console.error('Error fetching items:', error));
+
+    // Function to display item details
+    function displayItemDetails(selectedItemId) {
+      const selectedItem = data.find(item => item._id === selectedItemId);
+
+      if (selectedItem) {
+        const itemDetailsHTML = `
+          <strong>Item ID:</strong> ${selectedItem._id}<br>
+          <strong>Name:</strong> ${selectedItem.name}<br>
+          <strong>Other properties:</strong> ${JSON.stringify(selectedItem, null, 2)}
+        `;
+
+        itemDetails.innerHTML = itemDetailsHTML;
+
+        // Display agent email
+        agentEmailValue.textContent = selectedItem['agent-email'];
+      } else {
+        itemDetails.innerHTML = 'Item not found.';
+        agentEmailValue.textContent = '';
+      }
+    }
+
+    // Listen for dropdown selection changes
+    dropdown.addEventListener('change', (event) => {
+      const selectedItemId = event.target.value;
+      displayItemDetails(selectedItemId);
+    });
+
     // Event listener for the "Update Email" button
     const updateEmailButton = document.getElementById('update-email-button');
     updateEmailButton.addEventListener('click', async () => {
       const selectedItemId = dropdown.value;
-      const newAgentEmail = prompt('Enter the new agent email:');
-
-      if (newAgentEmail) {
-        const success = await updateAgentEmail(selectedItemId, newAgentEmail);
-        if (success) {
-          alert('Agent email updated successfully!');
-        } else {
-          alert('Error updating agent email. Please try again.');
-        }
-      }
-    });
-  </script>
-</body>
-</html>
+      const newAgentEmail = prompt('
