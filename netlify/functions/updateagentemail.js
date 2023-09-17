@@ -5,11 +5,11 @@ exports.handler = async function (event, context) {
     const data = JSON.parse(event.body);
     console.log('Received data:', data);
 
-    // Replace with your actual Webflow API endpoint for updating an item
-    const endpoint = `https://api.webflow.com/collections/633cdfe2191b153dc65c63a9/items/63cec1473c544e2f09c4a930`;
+    const collectionId = '633cdfe2191b153dc65c63a9'; // Replace with your Webflow collection ID
+    const itemId = '63cec1473c544e2f09c4a930'; // Replace with the specific item ID
+    const apiKey = 'a6f5957da2cbed217ecb43cf800e9a43ee88d6b53dbb73f5660753a015840354'; // Replace with your Webflow API key
 
-    // Replace with your actual Webflow API key
-    const apiKey = 'a6f5957da2cbed217ecb43cf800e9a43ee88d6b53dbb73f5660753a015840354';
+    const endpoint = `https://api.webflow.com/collections/${collectionId}/items/${itemId}`;
 
     const response = await fetch(endpoint, {
       method: 'PATCH',
