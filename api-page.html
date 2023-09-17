@@ -1,6 +1,3 @@
-To display the agent email field all the time, you can add an element for it in the HTML and update its content when an item is selected from the dropdown. Here's the updated code:
-
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -100,4 +97,19 @@ To display the agent email field all the time, you can add an element for it in 
     const updateEmailButton = document.getElementById('update-email-button');
     updateEmailButton.addEventListener('click', async () => {
       const selectedItemId = dropdown.value;
-      const newAgentEmail = prompt('
+      const newAgentEmail = prompt('Enter the new agent email:');
+
+      if (newAgentEmail) {
+        const success = await updateAgentEmail(selectedItemId, newAgentEmail);
+        if (success) {
+          alert('Agent email updated successfully!');
+          // Update the displayed agent email
+          agentEmailValue.textContent = newAgentEmail;
+        } else {
+          alert('Error updating agent email. Please try again.');
+        }
+      }
+    });
+  </script>
+</body>
+</html>
