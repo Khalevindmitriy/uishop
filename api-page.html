@@ -32,7 +32,8 @@
         // Populate the dropdown with collection items
         data.forEach(item => {
           const option = document.createElement('option');
-          option.value = item._id; // or any identifier for the item
+          const itemId = item._id.replace(/"/g, ''); // Remove double quotes from the item._id
+          option.value = itemId; // Use the cleaned itemId as the value
           option.textContent = item.name; // or any property to display
           dropdown.appendChild(option);
         });
