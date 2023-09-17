@@ -51,10 +51,10 @@
       const selectedItem = data.find(item => item.id === selectedItemId);
 
       if (selectedItem) {
-        // Display the selected item details
-        itemDetails.innerHTML = `<pre>${JSON.stringify(selectedItem, null, 2)}</pre>`;
+        // Display the selected item details in the console
+        console.log('Selected item:', selectedItem);
       } else {
-        itemDetails.textContent = 'Item not found';
+        console.log('Item not found');
       }
     });
   </script>
