@@ -1,10 +1,14 @@
-<!-- Rest of your HTML code remains the same -->
+<script>
+  let data;
 
-  <script>
-    let data;
-
+  document.addEventListener('DOMContentLoaded', () => {
     const dropdown = document.getElementById('item-dropdown');
     const itemDetails = document.getElementById('item-details');
+
+    if (!dropdown || !itemDetails) {
+      console.error('Dropdown or item-details element not found.');
+      return;
+    }
 
     // Fetch your collection items
     fetch('/.netlify/functions/webflowitems')
@@ -40,6 +44,5 @@
         itemDetails.textContent = 'Item not found';
       }
     });
-  </script>
-</body>
-</html>
+  });
+</script>
