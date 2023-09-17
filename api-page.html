@@ -1,3 +1,6 @@
+Of course! Here's the complete code for your HTML page with the modifications to handle updating the agent email and displaying a confirmation:
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,25 +12,17 @@
   <div>
     <label for="item-dropdown">Select an item: </label>
     <select id="item-dropdown">
-      <option value="">Choose your listing</option>
+      <!-- Options will be dynamically populated here -->
     </select>
   </div>
   <div id="item-details">
     <!-- Item details will be displayed here -->
   </div>
-
-  <div>
-    <label for="agent-email">Update Agent's Email: </label>
-    <input type="email" id="agent-email" placeholder="Enter new agent's email">
-    <button id="update-email-btn">Update Email</button>
-    <div id="confirmation-message"></div>
-  </div>
+  <button id="update-email-button">Update Email</button>
 
   <script>
     const dropdown = document.getElementById('item-dropdown');
     const itemDetails = document.getElementById('item-details');
-    const agentEmailInput = document.getElementById('agent-email');
-    const updateEmailBtn = document.getElementById('update-email-btn');
 
     let data; // Variable to hold the data
 
@@ -71,35 +66,39 @@
       }
     });
 
-    // Listen for the "Update Email" button click
-    updateEmailBtn.addEventListener('click', () => {
-      const selectedItemId = dropdown.value;
-      const newAgentEmail = agentEmailInput.value;
-
-      // Send a request to update the agent's email
-      fetch('https://your-api-domain/.netlify/functions/updateAgentEmail', {
-        method: 'POST',
-        body: JSON.stringify({ id: selectedItemId, email: newAgentEmail }),
-      })
-        .then(response => {
-          // Check if the response is OK (HTTP status 200-299)
-          if (!response.ok) {
-            throw new Error('Network response was not ok');
-          }
-          return response.json(); // Parse response as JSON
-        })
-        .then(data => {
-          console.log('Agent email updated:', data.message);
-          // Display a confirmation to the user
-          const confirmationMessage = document.getElementById('confirmation-message');
-          confirmationMessage.innerText = 'Agent email updated successfully!';
-        })
-        .catch(error => {
-          console.error('Error updating agent email:', error);
-          const confirmationMessage = document.getElementById('confirmation-message');
-          confirmationMessage.innerText = 'Error updating agent email';
+    // Function to update agent email
+    async function updateAgentEmail(selectedItemId, newAgentEmail) {
+      try {
+        const response = await fetch('https://your-api-domain/.netlify/functions/updateAgentEmail', {
+          method: 'POST',
+          body: JSON.stringify({ id: selectedItemId, email: newAgentEmail }),
         });
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        const result = await response.json();
+        console.log('Agent email updated successfully:', result.message);
+      } catch (error) {
+        console.error('Error updating agent email:', error);
+      }
+    }
+
+    // Event listener for the "Update Email" button
+    const updateEmailButton = document.getElementById('update-email-button');
+    updateEmailButton.addEventListener('click', async () => {
+      const selectedItemId = dropdown.value;
+      const newAgentEmail = prompt('Enter the new agent email:');
+
+      if (newAgentEmail) {
+        await updateAgentEmail(selectedItemId, newAgentEmail);
+        alert('Agent email updated successfully!');
+      }
     });
   </script>
 </body>
 </html>
+```
+
+Please replace `'https://your-api-domain/'` with the actual domain where your API is hosted.
