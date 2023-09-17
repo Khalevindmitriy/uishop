@@ -30,9 +30,9 @@
         data = items;
 
         // Populate the dropdown with collection items
-        data.forEach(item => {
+        data.forEach((item, index) => {
           const option = document.createElement('option');
-          option.value = item._id; // Store the item ID as the value
+          option.value = index; // Store the index as the value
           option.textContent = item.name; // or any property to display
           dropdown.appendChild(option);
         });
@@ -40,27 +40,4 @@
       .catch(error => console.error('Error fetching items:', error));
 
     // Listen for dropdown selection changes
-    dropdown.addEventListener('change', (event) => {
-      const selectedItemId = event.target.value;
-
-      if (selectedItemId !== '') {
-        const selectedItem = data.find(item => item._id === selectedItemId);
-
-        if (selectedItem) {
-          const itemDetailsHTML = `
-            <strong>Item ID:</strong> ${selectedItem._id}<br>
-            <strong>Name:</strong> ${selectedItem.name}<br>
-            <strong>Other properties:</strong> ${JSON.stringify(selectedItem, null, 2)}
-          `;
-
-          itemDetails.innerHTML = itemDetailsHTML;
-        } else {
-          itemDetails.innerHTML = 'Item not found.';
-        }
-      } else {
-        itemDetails.innerHTML = '';  // Clear item details if no item selected
-      }
-    });
-  </script>
-</body>
-</html>
+   
