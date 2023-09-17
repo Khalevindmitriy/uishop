@@ -1,15 +1,17 @@
-// functions/updateAgentEmail.js
 exports.handler = async function (event, context) {
   try {
-    // Parse the data from the request body
     const data = JSON.parse(event.body);
 
-    // TODO: Use the Webflow API to update the agent's email with the provided data
+    // Assuming data contains a property 'agentEmail' with the new email
+    const newEmail = data.agentEmail;
 
-    // Simulated success response (replace this with actual Webflow API call)
+    // TODO: Use the Webflow API to update the agent's email with the provided data
+    // Replace this with the actual Webflow API call
+
+    // Simulated success response
     return {
       statusCode: 200,
-      body: JSON.stringify({ message: 'Agent email updated successfully' }),
+      body: JSON.stringify({ message: 'Agent email updated successfully', newEmail }),
     };
   } catch (error) {
     return {
