@@ -1,5 +1,4 @@
 // functions/updateAgentEmail.js
-
 exports.handler = async function (event, context) {
   try {
     // Parse the data from the request body
