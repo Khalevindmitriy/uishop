@@ -38,12 +38,13 @@ Absolutely! Here's the full HTML code for your API page, including the script to
           data = collectionData;
 
           // Populate the dropdown with collection item names
-          data.forEach((item, index) => {
-            const option = document.createElement('option');
-            option.value = index;  // Assuming index can be used as an identifier
-            option.textContent = item.name;  // Assuming 'name' is a property in your data
-            dropdown.appendChild(option);
-          });
+         data.forEach((item) => {
+  const option = document.createElement('option');
+  option.value = item._id;  // Assuming '_id' can be used as an identifier
+  option.textContent = item.name;  // Assuming 'name' is a property in your data
+  dropdown.appendChild(option);
+});
+
         })
         .catch(error => console.error('Error fetching items:', error));
 
