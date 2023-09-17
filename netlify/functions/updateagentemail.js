@@ -1,5 +1,18 @@
 exports.handler = async function (event, context) {
   try {
+    console.log('Update agent email function called.');
+    
+    // Parse the data from the request body
+    const data = JSON.parse(event.body);
+    console.log('Received data:', data);
+
+    // ... rest of the code
+
+
+
+
+exports.handler = async function (event, context) {
+  try {
     const data = JSON.parse(event.body);
 
     // Assuming data contains a property 'agentEmail' with the new email
