@@ -1,6 +1,3 @@
-Of course! Here's the complete code for your HTML page with the modifications to handle updating the agent email and displaying a confirmation:
-
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,6 +9,7 @@ Of course! Here's the complete code for your HTML page with the modifications to
   <div>
     <label for="item-dropdown">Select an item: </label>
     <select id="item-dropdown">
+      <option value="">Choose your listing</option>
       <!-- Options will be dynamically populated here -->
     </select>
   </div>
@@ -80,8 +78,10 @@ Of course! Here's the complete code for your HTML page with the modifications to
 
         const result = await response.json();
         console.log('Agent email updated successfully:', result.message);
+        return true;
       } catch (error) {
         console.error('Error updating agent email:', error);
+        return false;
       }
     }
 
@@ -92,13 +92,14 @@ Of course! Here's the complete code for your HTML page with the modifications to
       const newAgentEmail = prompt('Enter the new agent email:');
 
       if (newAgentEmail) {
-        await updateAgentEmail(selectedItemId, newAgentEmail);
-        alert('Agent email updated successfully!');
+        const success = await updateAgentEmail(selectedItemId, newAgentEmail);
+        if (success) {
+          alert('Agent email updated successfully!');
+        } else {
+          alert('Error updating agent email. Please try again.');
+        }
       }
     });
   </script>
 </body>
 </html>
-```
-
-Please replace `'https://your-api-domain/'` with the actual domain where your API is hosted.
