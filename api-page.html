@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,20 +12,22 @@
       <option value="">Choose your listing</option>
     </select>
   </div>
-  <div>
-    <label for="agent-email">Agent Email: </label>
-    <input type="text" id="agent-email">
-    <button id="edit-button">Edit Agent Email</button>
-  </div>
   <div id="item-details">
     <!-- Item details will be displayed here -->
   </div>
 
+  <!-- Add a form for updating the agent's email -->
+  <div>
+    <label for="agent-email">Update Agent's Email: </label>
+    <input type="email" id="agent-email" placeholder="Enter new agent's email">
+    <button id="update-email-btn">Update Email</button>
+  </div>
+
   <script>
     const dropdown = document.getElementById('item-dropdown');
-    const agentEmailInput = document.getElementById('agent-email');
-    const editButton = document.getElementById('edit-button');
     const itemDetails = document.getElementById('item-details');
+    const agentEmailInput = document.getElementById('agent-email');
+    const updateEmailBtn = document.getElementById('update-email-btn');
 
     let data; // Variable to hold the data
 
@@ -62,9 +63,6 @@
           `;
 
           itemDetails.innerHTML = itemDetailsHTML;
-
-          // Populate the agent email input
-          agentEmailInput.value = selectedItem['agent-email'];
         } else {
           itemDetails.innerHTML = 'Item not found.';
         }
@@ -73,21 +71,23 @@
       }
     });
 
-    // Listen for the edit button click
-    editButton.addEventListener('click', () => {
-      const newAgentEmail = agentEmailInput.value;
+    // Listen for the "Update Email" button click
+    updateEmailBtn.addEventListener('click', () => {
       const selectedItemId = dropdown.value;
-      const selectedItem = data.find(item => item._id === selectedItemId);
+      const newAgentEmail = agentEmailInput.value;
 
-      if (selectedItem) {
-        // Update the agent email in your local data
-        selectedItem['agent-email'] = newAgentEmail;
-
-        // Simulate a successful update
-        // You would replace this with an actual API request to update the item in Webflow
-        // Refer to Webflow API documentation for the correct endpoint and authentication
+      // Send a request to update the agent's email
+      fetch('/.netlify/functions/updateAgentEmail', {
+        method: 'POST',
+        body: JSON.stringify({ id: selectedItemId, email: newAgentEmail }),
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Agent email updated:', data.message);
+        // Optionally display a confirmation to the user
         alert('Agent email updated successfully!');
-      }
+      })
+      .catch(error => console.error('Error updating agent email:', error));
     });
   </script>
 </body>
