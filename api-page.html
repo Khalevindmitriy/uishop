@@ -23,8 +23,7 @@
     let data; // Variable to hold the data
 
     // Fetch your collection items
-    // NOTE: Replace 'your_api_endpoint' with the correct API endpoint
-    fetch('your_api_endpoint')
+    fetch('/.netlify/functions/webflowitems')
       .then(response => response.json())
       .then(items => {
         // Save the data
