@@ -14,7 +14,8 @@
   </div>
   <div>
     <label for="agent-email">Agent Email:</label>
-    <input type="text" id="agent-email">
+    <input type="text" id="agent-email" disabled>
+    <button onclick="updateAgentEmail()">Update Email</button>
   </div>
 
   <div id="item-details">
@@ -75,6 +76,14 @@
         agentEmailInput.setAttribute('disabled', true); // Disable the field
       }
     });
+
+    function updateAgentEmail() {
+      const newAgentEmail = agentEmailInput.value;
+
+      // TODO: Update the agent email using the Webflow API
+
+      console.log('Agent email updated:', newAgentEmail);
+    }
   </script>
 </body>
 </html>
