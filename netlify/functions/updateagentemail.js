@@ -9,21 +9,19 @@ exports.handler = async function (event, context) {
     const itemId = '63cec1473c544e2f09c4a930'; // Replace with the specific item ID
     const apiKey = 'a6f5957da2cbed217ecb43cf800e9a43ee88d6b53dbb73f5660753a015840354'; // Replace with your Webflow API key
 
-    const endpoint = `https://api.webflow.com/collections/${collectionId}/items/${itemId}`;
+    const endpoint = `https://api.webflow.com/v2/collections/${collectionId}/items/${itemId}`;
 
-    const response = await fetch(endpoint, {
+    const options = {
       method: 'PATCH',
       headers: {
-        'Authorization': `Bearer ${apiKey}`,
-        'Content-Type': 'application/json',
+        accept: 'application/json',
+        'content-type': 'application/json',
+        authorization: `Bearer ${apiKey}`
       },
-      body: JSON.stringify({
-        fields: {
-          'agent-email': data.newAgentEmail
-        }
-      })
-    });
+      body: JSON.stringify({ 'fields.agent-email': data.newAgentEmail }) // Assuming 'agent-email' is the field to update
+    };
 
+    const response = await fetch(endpoint, options);
     const responseData = await response.json();
 
     // Check if the response was successful
