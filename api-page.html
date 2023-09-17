@@ -32,8 +32,7 @@
         // Populate the dropdown with collection items
         data.forEach(item => {
           const option = document.createElement('option');
-          const itemId = item._id.replace(/"/g, ''); // Remove double quotes from the item._id
-          option.value = itemId; // Use the cleaned itemId as the value
+          option.value = JSON.stringify(item); // Store the entire item as a JSON string
           option.textContent = item.name; // or any property to display
           dropdown.appendChild(option);
         });
@@ -45,7 +44,7 @@
       const selectedItemId = event.target.value;
 
       if (selectedItemId !== '') {
-        const selectedItem = data.find(item => item._id === selectedItemId);
+        const selectedItem = JSON.parse(selectedItemId); // Parse the JSON string back to an object
 
         if (selectedItem) {
           const itemDetailsHTML = `
