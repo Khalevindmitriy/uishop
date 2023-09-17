@@ -1,21 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>API Page</title>
-</head>
-<body>
-  <div>
-    <label for="item-dropdown">Select an item: </label>
-    <select id="item-dropdown">
-      <option value="">Choose your listing</option>
-      <!-- Options will be dynamically populated here -->
-    </select>
-  </div>
-  <div id="item-details">
-    <!-- Item details will be displayed here -->
-  </div>
+<!-- Rest of your HTML code remains the same -->
 
   <script>
     let data;
@@ -51,10 +34,10 @@
       const selectedItem = data.find(item => item.id === selectedItemId);
 
       if (selectedItem) {
-        // Display the selected item details in the console
-        console.log('Selected item:', selectedItem);
+        // Display the selected item details on the page
+        itemDetails.textContent = JSON.stringify(selectedItem, null, 2);
       } else {
-        console.log('Item not found');
+        itemDetails.textContent = 'Item not found';
       }
     });
   </script>
