@@ -10,44 +10,33 @@
     <label for="item-dropdown">Select an item: </label>
     <select id="item-dropdown">
       <option value="">Choose your listing</option>
-      <!-- Options will be dynamically populated here -->
     </select>
   </div>
+  <div>
+    <label for="agent-email">Agent Email:</label>
+    <input type="text" id="agent-email" disabled>
+    <button onclick="openUpdateModal()">Update Agent Email</button>
+  </div>
+
+  <!-- Modal for updating agent email -->
+  <div id="update-modal" style="display: none;">
+    <h2>Update Agent Email</h2>
+    <input type="text" id="new-agent-email" placeholder="New Agent Email">
+    <button onclick="updateAgentEmail()">Update</button>
+  </div>
+
   <div id="item-details">
     <!-- Item details will be displayed here -->
   </div>
-  <div id="agent-email">
-    <strong>Agent Email:</strong> <span id="agent-email-value"></span>
-  </div>
-  <button id="update-email-button">Update Email</button>
 
   <script>
     const dropdown = document.getElementById('item-dropdown');
     const itemDetails = document.getElementById('item-details');
-    const agentEmailValue = document.getElementById('agent-email-value');
+    const agentEmailInput = document.getElementById('agent-email');
+    const updateModal = document.getElementById('update-modal');
+    const newAgentEmailInput = document.getElementById('new-agent-email');
 
     let data; // Variable to hold the data
-
-    // Function to update agent email
-    async function updateAgentEmail(selectedItemId, newAgentEmail) {
-      try {
-        const response = await fetch('https://your-api-domain/.netlify/functions/updateAgentEmail', {
-          method: 'POST',
-          body: JSON.stringify({ id: selectedItemId, email: newAgentEmail }),
-        });
-
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-
-        const result = await response.json();
-        console.log('Agent email updated successfully:', result.message);
-        return true;
-      } catch (error) {
-        console.error('Error updating agent email:', error);
-        return false;
-      }
-    }
 
     // Fetch your collection items
     fetch('/.netlify/functions/webflowitems')
@@ -66,50 +55,47 @@
       })
       .catch(error => console.error('Error fetching items:', error));
 
-    // Function to display item details
-    function displayItemDetails(selectedItemId) {
-      const selectedItem = data.find(item => item._id === selectedItemId);
-
-      if (selectedItem) {
-        const itemDetailsHTML = `
-          <strong>Item ID:</strong> ${selectedItem._id}<br>
-          <strong>Name:</strong> ${selectedItem.name}<br>
-          <strong>Other properties:</strong> ${JSON.stringify(selectedItem, null, 2)}
-        `;
-
-        itemDetails.innerHTML = itemDetailsHTML;
-
-        // Display agent email
-        agentEmailValue.textContent = selectedItem['agent-email'];
-      } else {
-        itemDetails.innerHTML = 'Item not found.';
-        agentEmailValue.textContent = '';
-      }
-    }
-
     // Listen for dropdown selection changes
     dropdown.addEventListener('change', (event) => {
       const selectedItemId = event.target.value;
-      displayItemDetails(selectedItemId);
-    });
 
-    // Event listener for the "Update Email" button
-    const updateEmailButton = document.getElementById('update-email-button');
-    updateEmailButton.addEventListener('click', async () => {
-      const selectedItemId = dropdown.value;
-      const newAgentEmail = prompt('Enter the new agent email:');
+      if (selectedItemId !== '') {
+        const selectedItem = data.find(item => item._id === selectedItemId);
 
-      if (newAgentEmail) {
-        const success = await updateAgentEmail(selectedItemId, newAgentEmail);
-        if (success) {
-          alert('Agent email updated successfully!');
-          // Update the displayed agent email
-          agentEmailValue.textContent = newAgentEmail;
+        if (selectedItem) {
+          const itemDetailsHTML = `
+            <strong>Item ID:</strong> ${selectedItem._id}<br>
+            <strong>Name:</strong> ${selectedItem.name}<br>
+            <strong>Other properties:</strong> ${JSON.stringify(selectedItem, null, 2)}
+          `;
+
+          itemDetails.innerHTML = itemDetailsHTML;
+
+          // Show agent email in the input field
+          agentEmailInput.value = selectedItem['agent-email'];
         } else {
-          alert('Error updating agent email. Please try again.');
+          itemDetails.innerHTML = 'Item not found.';
         }
+      } else {
+        itemDetails.innerHTML = '';  // Clear item details if no item selected
+        agentEmailInput.value = ''; // Clear agent email input
       }
     });
+
+    function openUpdateModal() {
+      updateModal.style.display = 'block';
+    }
+
+    function updateAgentEmail() {
+      const newAgentEmail = newAgentEmailInput.value;
+
+      // Update the agent email here with the newAgentEmail
+      // For now, we'll just log it to the console
+      console.log('Agent email updated:', newAgentEmail);
+
+      // Close the modal
+      updateModal.style.display = 'none';
+    }
   </script>
 </body>
 </html>
