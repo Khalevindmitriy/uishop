@@ -5,9 +5,9 @@ exports.handler = async function (event, context) {
     const data = JSON.parse(event.body);
     console.log('Received data:', data);
 
-    const collectionId = '633cdfe2191b153dc65c63a9'; // Actual Webflow collection ID
-    const itemId = '63cec1473c544e2f09c4a930'; // Actual item ID
-    const apiKey = 'a6f5957da2cbed217ecb43cf800e9a43ee88d6b53dbb73f5660753a015840354'; // Actual Webflow API key
+    const collectionId = '633cdfe2191b153dc65c63a9'; // Replace with your actual Webflow collection ID
+    const itemId = '63cec1473c544e2f09c4a930'; // Replace with your actual item ID
+    const apiKey = 'a6f5957da2cbed217ecb43cf800e9a43ee88d6b53dbb73f5660753a015840354'; // Replace with your actual Webflow API key
 
     const endpoint = `https://api.webflow.com/v2/collections/${collectionId}/items/${itemId}`;
 
@@ -24,7 +24,7 @@ exports.handler = async function (event, context) {
     const response = await fetch(endpoint, options);
     const responseData = await response.json();
 
-    console.log('Response from Webflow API:', responseData); // Log the response
+    console.log('Response from Webflow API:', responseData); // Log the response from Webflow API
 
     // Check if the response was successful
     if (response.ok) {
