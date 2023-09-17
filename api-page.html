@@ -30,7 +30,7 @@
         data = items;
 
         // Populate the dropdown with collection items
-        data.forEach(item => {
+        items.forEach(item => {
           const option = document.createElement('option');
           option.value = item._id; // Store the item ID as the value
           option.textContent = item.name; // or any property to display
@@ -44,4 +44,15 @@
       const selectedItemId = event.target.value;
 
       if (selectedItemId !== '') {
-        const selectedItem = data.find(item => item._
+        const selectedItem = data.find(item => item._id === selectedItemId);
+
+        if (selectedItem) {
+          const itemDetailsHTML = `
+            <strong>Item ID:</strong> ${selectedItem._id}<br>
+            <strong>Name:</strong> ${selectedItem.name}<br>
+            <strong>Other properties:</strong> ${JSON.stringify(selectedItem, null, 2)}
+          `;
+
+          itemDetails.innerHTML = itemDetailsHTML;
+        } else {
+          itemDetails.innerHTML = 'Item
