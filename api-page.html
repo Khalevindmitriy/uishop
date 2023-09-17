@@ -15,14 +15,16 @@
   <div>
     <label for="agent-email">Agent Email:</label>
     <input type="text" id="agent-email" disabled>
-    <button onclick="updateAgentEmail()">Update Email</button>
+    <button onclick="openUpdateModal()">Change Email</button>
   </div>
 
-  <!-- Progress indicator -->
-  <div id="progress" style="display: none;">Updating...</div>
-
-  <!-- Confirmation message -->
-  <div id="confirmation" style="display: none;"></div>
+  <!-- Modal for updating agent email -->
+  <div id="update-modal" style="display: none;">
+    <h2>Update Agent Email</h2>
+    <input type="text" id="new-agent-email" placeholder="New Agent Email">
+    <button onclick="updateAgentEmail()">Update</button>
+    <div id="progress" style="display: none;">Updating...</div>
+  </div>
 
   <div id="item-details">
     <!-- Item details will be displayed here -->
@@ -32,14 +34,22 @@
     const dropdown = document.getElementById('item-dropdown');
     const itemDetails = document.getElementById('item-details');
     const agentEmailInput = document.getElementById('agent-email');
-    const progressIndicator = document.getElementById('progress');
-    const confirmationMessage = document.getElementById('confirmation');
-    const updateButton = document.querySelector('button');
+    const updateModal = document.getElementById('update-modal');
+    const newAgentEmailInput = document.getElementById('new-agent-email');
+    const progress = document.getElementById('progress');
 
     let data; // Variable to hold the data
+    let selectedItemId; // Variable to hold the selected item ID
+
+    // Add your API key here
+    const apiKey = 'a6f5957da2cbed217ecb43cf800e9a43ee88d6b53dbb73f5660753a015840354';
 
     // Fetch your collection items
-    fetch('/.netlify/functions/webflowitems')
+    fetch('/.netlify/functions/webflowitems', {
+      headers: {
+        'Authorization': `Bearer ${apiKey}`
+      }
+    })
       .then(response => response.json())
       .then(items => {
         // Save the data
@@ -57,7 +67,7 @@
 
     // Listen for dropdown selection changes
     dropdown.addEventListener('change', (event) => {
-      const selectedItemId = event.target.value;
+      selectedItemId = event.target.value;
 
       if (selectedItemId !== '') {
         const selectedItem = data.find(item => item._id === selectedItemId);
@@ -70,47 +80,40 @@
           `;
 
           itemDetails.innerHTML = itemDetailsHTML;
-
-          // Show agent email in the input field
           agentEmailInput.value = selectedItem['agent-email'];
-          agentEmailInput.removeAttribute('disabled'); // Make the field editable
         } else {
           itemDetails.innerHTML = 'Item not found.';
-          agentEmailInput.value = ''; // Clear agent email input
-          agentEmailInput.setAttribute('disabled', true); // Disable the field
+          agentEmailInput.value = '';
         }
       } else {
-        itemDetails.innerHTML = '';  // Clear item details if no item selected
-        agentEmailInput.value = ''; // Clear agent email input
-        agentEmailInput.setAttribute('disabled', true); // Disable the field
+        itemDetails.innerHTML = '';
+        agentEmailInput.value = '';
       }
     });
 
+    function openUpdateModal() {
+      updateModal.style.display = 'block';
+    }
+
     function updateAgentEmail() {
-      const newAgentEmail = agentEmailInput.value;
+      const newAgentEmail = newAgentEmailInput.value;
 
-      // Disable the button during the update process
-      updateButton.disabled = true;
+      // Update the agent email here with the newAgentEmail
+      // For now, we'll just log it to the console
+      console.log('Agent email updated:', newAgentEmail);
 
-      // Show progress indicator
-      progressIndicator.style.display = 'block';
+      // Show progress
+      progress.style.display = 'block';
 
-      // Simulate an update process (replace this with your actual API call)
+      // Simulate an update delay (you'll replace this with your actual update logic)
       setTimeout(() => {
-        // TODO: Update the agent email using the Webflow API
+        // Hide progress and update modal
+        progress.style.display = 'none';
+        updateModal.style.display = 'none';
 
-        // Enable the button after the update is complete
-        updateButton.disabled = false;
-
-        // Hide progress indicator
-        progressIndicator.style.display = 'none';
-
-        // Show confirmation message
-        confirmationMessage.innerHTML = 'Agent email updated successfully!';
-        confirmationMessage.style.display = 'block';
-
-        console.log('Agent email updated:', newAgentEmail);
-      }, 3000); // Simulate a 3-second update process, replace with actual duration
+        // Confirm the update to the user
+        alert('Agent email updated successfully!');
+      }, 3000); // Simulate a 3-second update process
     }
   </script>
 </body>
