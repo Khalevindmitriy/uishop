@@ -9,11 +9,11 @@
   <div>
     <label for="item-dropdown">Select an item: </label>
     <select id="item-dropdown">
-      <!-- Options will be dynamically populated here -->
+      <option value="">Choose your listing</option>
     </select>
   </div>
   <div id="item-details">
-    <!-- Item details will be displayed here -->
+    Choose an item
   </div>
 
   <script>
@@ -35,30 +35,7 @@
           data = collectionData;
 
           // Populate the dropdown with collection item names
-          data.forEach(item => {
+          data.forEach((item, index) => {
             const option = document.createElement('option');
-            option.value = item.id;
-            option.textContent = item.name;  // Assuming 'name' is a property in your data
-            dropdown.appendChild(option);
-          });
-        })
-        .catch(error => console.error('Error fetching items:', error));
-
-      // Listen for dropdown selection changes
-      dropdown.addEventListener('change', (event) => {
-        const selectedItemId = event.target.value;
-
-        if (selectedItemId === '') {
-          itemDetails.textContent = 'Choose an item';
-          return;
-        }
-
-        const selectedItem = data.find(item => item.id === selectedItemId);
-
-        if (selectedItem) {
-          // Display the selected item details on the page
-          itemDetails.textContent = JSON.stringify(selectedItem, null, 2);
-        } else {
-          itemDetails.textContent = 'Item not found';
-        }
-      });
+            option.value = index;  // Assuming index can be used as an identifier
+            option.textContent = item.name;  //
