@@ -15,7 +15,6 @@
   <div>
     <label for="agent-email">Agent Email:</label>
     <input type="text" id="agent-email" disabled>
-    <button onclick="openUpdateModal()">Update Agent Email</button>
   </div>
 
   <!-- Modal for updating agent email -->
@@ -75,6 +74,7 @@
           agentEmailInput.value = selectedItem['agent-email'];
         } else {
           itemDetails.innerHTML = 'Item not found.';
+          agentEmailInput.value = ''; // Clear agent email input
         }
       } else {
         itemDetails.innerHTML = '';  // Clear item details if no item selected
