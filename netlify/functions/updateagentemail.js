@@ -1,11 +1,25 @@
 function updateAgentEmail() {
   const newAgentEmail = agentEmailInput.value;
+  const selectedItemId = dropdown.value;
 
   // Disable the button during the update process
   updateButton.disabled = true;
 
   // Show progress indicator
   progressIndicator.style.display = 'block';
+
+  // Retrieve the collection ID and item ID associated with the selected item
+  const selectedItem = data.find(item => item._id === selectedItemId);
+  const collectionId = selectedItem && selectedItem.collectionId;
+  const itemId = selectedItem && selectedItem.itemId;
+
+  if (!collectionId || !itemId) {
+    console.error('Could not find collection ID or item ID for the selected item.');
+    return;
+  }
+
+  // Construct the request URL
+  const apiUrl = `https://api.webflow.com/collections/${collectionId}/items/${itemId}`;
 
   // Construct the request body
   const requestBody = {
@@ -14,10 +28,7 @@ function updateAgentEmail() {
     }
   };
 
-  // Replace 'YOUR_ITEM_ID' with the actual item ID you want to update
-  const itemId = 'YOUR_ITEM_ID';
-
-  fetch(`https://api.webflow.com/collections/YOUR_COLLECTION_ID/items/${itemId}`, {
+  fetch(apiUrl, {
     method: 'PUT',
     headers: {
       'Authorization': 'Bearer YOUR_API_KEY',
@@ -33,7 +44,7 @@ function updateAgentEmail() {
   })
   .then(data => {
     console.log('Agent email updated:', newAgentEmail);
-    
+
     // Enable the button after the update is complete
     updateButton.disabled = false;
 
@@ -46,7 +57,7 @@ function updateAgentEmail() {
   })
   .catch(error => {
     console.error('Error updating agent email:', error);
-    
+
     // Enable the button after the update is complete
     updateButton.disabled = false;
 
