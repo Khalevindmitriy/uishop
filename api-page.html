@@ -12,13 +12,18 @@
       <option value="">Choose your listing</option>
     </select>
   </div>
-  <div id="item-details">
-    <!-- Item details will be displayed here -->
+
+  <div>
+    <label for="agent-email">Agent Email: </label>
+    <input type="email" id="agent-email" disabled>
   </div>
+
+  <button id="edit-button" disabled>Edit Agent Email</button>
 
   <script>
     const dropdown = document.getElementById('item-dropdown');
-    const itemDetails = document.getElementById('item-details');
+    const agentEmailInput = document.getElementById('agent-email');
+    const editButton = document.getElementById('edit-button');
 
     let data; // Variable to hold the data
 
@@ -33,7 +38,7 @@
         data.forEach(item => {
           const option = document.createElement('option');
           option.value = item._id; // or any identifier for the item
-          option.textContent = item.name; // Change this to the property you want to display
+          option.textContent = item.name; // or any property to display
           dropdown.appendChild(option);
         });
       })
@@ -47,18 +52,29 @@
         const selectedItem = data.find(item => item._id === selectedItemId);
 
         if (selectedItem) {
-          const itemDetailsHTML = `
-            <strong>Item ID:</strong> ${selectedItem._id}<br>
-            <strong>Name:</strong> ${selectedItem.name}<br>
-            <strong>Other properties:</strong> ${JSON.stringify(selectedItem, null, 2)}
-          `;
-
-          itemDetails.innerHTML = itemDetailsHTML;
-        } else {
-          itemDetails.innerHTML = 'Item not found.';
+          agentEmailInput.value = selectedItem['agent-email'];
+          agentEmailInput.disabled = false;
+          editButton.disabled = false;
         }
       } else {
-        itemDetails.innerHTML = '';  // Clear item details if no item selected
+        agentEmailInput.value = '';
+        agentEmailInput.disabled = true;
+        editButton.disabled = true;
+      }
+    });
+
+    // Listen for edit button click
+    editButton.addEventListener('click', () => {
+      const newAgentEmail = agentEmailInput.value;
+
+      // Update the selected item's agent email
+      const selectedItemId = dropdown.value;
+      const selectedItem = data.find(item => item._id === selectedItemId);
+
+      if (selectedItem) {
+        selectedItem['agent-email'] = newAgentEmail;
+        // You can send this updated data back to your server or handle it accordingly
+        console.log('Updated data:', data);
       }
     });
   </script>
