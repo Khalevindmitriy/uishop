@@ -14,7 +14,8 @@
   </div>
   <div>
     <label for="agent-email">Agent Email:</label>
-    <input type="text" id="agent-email" disabled>
+    <input type="text" id="agent-email">
+    <button onclick="openUpdateModal()">Change Email</button>
   </div>
 
   <!-- Modal for updating agent email -->
@@ -72,13 +73,16 @@
 
           // Show agent email in the input field
           agentEmailInput.value = selectedItem['agent-email'];
+          agentEmailInput.removeAttribute('disabled'); // Make the field editable
         } else {
           itemDetails.innerHTML = 'Item not found.';
           agentEmailInput.value = ''; // Clear agent email input
+          agentEmailInput.setAttribute('disabled', true); // Disable the field
         }
       } else {
         itemDetails.innerHTML = '';  // Clear item details if no item selected
         agentEmailInput.value = ''; // Clear agent email input
+        agentEmailInput.setAttribute('disabled', true); // Disable the field
       }
     });
 
