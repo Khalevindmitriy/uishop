@@ -26,8 +26,28 @@ exports.handler = async function (event, context) {
 
     console.log('Response from Webflow API:', responseData); // Log the response
 
-    // Rest of the code for handling the response...
-    // ...
+    // Check if the response was successful
+    if (response.ok) {
+      return {
+        statusCode: 200,
+        body: JSON.stringify({ message: 'Agent email updated successfully', data: responseData }),
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
+          'Content-Type': 'application/json'
+        }
+      };
+    } else {
+      return {
+        statusCode: response.status,
+        body: JSON.stringify({ message: 'Error updating agent email', error: responseData }),
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
+          'Content-Type': 'application/json'
+        }
+      };
+    }
   } catch (error) {
     console.error('Error:', error);
     return {
