@@ -1,48 +1,64 @@
-<script>
-  let data;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>API Page</title>
+</head>
+<body>
+  <div>
+    <label for="item-dropdown">Select an item: </label>
+    <select id="item-dropdown">
+      <!-- Options will be dynamically populated here -->
+    </select>
+  </div>
+  <div id="item-details">
+    <!-- Item details will be displayed here -->
+  </div>
 
-  document.addEventListener('DOMContentLoaded', () => {
-    const dropdown = document.getElementById('item-dropdown');
-    const itemDetails = document.getElementById('item-details');
+  <script>
+    let data;
 
-    if (!dropdown || !itemDetails) {
-      console.error('Dropdown or item-details element not found.');
-      return;
-    }
+    document.addEventListener('DOMContentLoaded', () => {
+      const dropdown = document.getElementById('item-dropdown');
+      const itemDetails = document.getElementById('item-details');
 
-    // Fetch your collection items
-    fetch('/.netlify/functions/webflowitems')
-      .then(response => response.json())
-      .then(collectionData => {
-        data = collectionData;
-
-        // Populate the dropdown with collection item names
-        data.forEach(item => {
-          const option = document.createElement('option');
-          option.value = item.id;
-          option.textContent = item.name;  // Assuming 'name' is a property in your data
-          dropdown.appendChild(option);
-        });
-      })
-      .catch(error => console.error('Error fetching items:', error));
-
-    // Listen for dropdown selection changes
-    dropdown.addEventListener('change', (event) => {
-      const selectedItemId = event.target.value;
-
-      if (selectedItemId === '') {
-        itemDetails.textContent = 'Choose an item';
+      if (!dropdown || !itemDetails) {
+        console.error('Dropdown or item-details element not found.');
         return;
       }
 
-      const selectedItem = data.find(item => item.id === selectedItemId);
+      // Fetch your collection items
+      fetch('/.netlify/functions/webflowitems')
+        .then(response => response.json())
+        .then(collectionData => {
+          data = collectionData;
 
-      if (selectedItem) {
-        // Display the selected item details on the page
-        itemDetails.textContent = JSON.stringify(selectedItem, null, 2);
-      } else {
-        itemDetails.textContent = 'Item not found';
-      }
-    });
-  });
-</script>
+          // Populate the dropdown with collection item names
+          data.forEach(item => {
+            const option = document.createElement('option');
+            option.value = item.id;
+            option.textContent = item.name;  // Assuming 'name' is a property in your data
+            dropdown.appendChild(option);
+          });
+        })
+        .catch(error => console.error('Error fetching items:', error));
+
+      // Listen for dropdown selection changes
+      dropdown.addEventListener('change', (event) => {
+        const selectedItemId = event.target.value;
+
+        if (selectedItemId === '') {
+          itemDetails.textContent = 'Choose an item';
+          return;
+        }
+
+        const selectedItem = data.find(item => item.id === selectedItemId);
+
+        if (selectedItem) {
+          // Display the selected item details on the page
+          itemDetails.textContent = JSON.stringify(selectedItem, null, 2);
+        } else {
+          itemDetails.textContent = 'Item not found';
+        }
+      });
