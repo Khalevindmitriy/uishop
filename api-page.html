@@ -33,7 +33,7 @@
         data.forEach(item => {
           const option = document.createElement('option');
           option.value = item._id; // or any identifier for the item
-          option.textContent = item.name; // or any property to display
+          option.textContent = item._id; // Display item ID as an example
           dropdown.appendChild(option);
         });
       })
