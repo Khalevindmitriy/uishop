@@ -32,7 +32,7 @@
         // Populate the dropdown with collection items
         data.forEach(item => {
           const option = document.createElement('option');
-          option.value = item.id; // or any identifier for the item
+          option.value = item._id; // or any identifier for the item
           option.textContent = item.name; // or any property to display
           dropdown.appendChild(option);
         });
@@ -43,11 +43,11 @@
       const selectedItemId = event.target.value;
 
       if (selectedItemId !== '') {
-        const selectedItem = data.find(item => item.id === selectedItemId);
+        const selectedItem = data.find(item => item._id === selectedItemId);
 
         if (selectedItem) {
           const itemDetailsHTML = `
-            <strong>Item ID:</strong> ${selectedItem.id}<br>
+            <strong>Item ID:</strong> ${selectedItem._id}<br>
             <strong>Name:</strong> ${selectedItem.name}<br>
             <strong>Other properties:</strong> ${JSON.stringify(selectedItem, null, 2)}
           `;
